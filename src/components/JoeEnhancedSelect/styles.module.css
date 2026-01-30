@@ -36,13 +36,45 @@
 
 .joe-enhanced-select__arrow {
   margin-left: 8px;
-  font-size: 12px;
-  color: #999;
+ 
+  
+}
+.joe-enhanced-select__arrow span{
+  display: inline-block;
+   width: 10px;
+  height: 10px;
+  position: relative;
   transition: transform 0.3s ease;
+  transform: rotate(45deg) translate(2px, 2px);
 }
 
-.joe-enhanced-select__arrow--open {
-  transform: rotate(180deg);
+.joe-enhanced-select__arrow span::before,
+.joe-enhanced-select__arrow span::after {
+  content: '';
+  position: absolute;
+  background-color: #999;
+  transition: all 0.3s ease;
+}
+
+.joe-enhanced-select__arrow span::before {
+  width: 1px;
+  height: 8px;
+  top: -2px;
+  left: 50%;
+  border-radius: 1px;
+}
+
+.joe-enhanced-select__arrow span::after {
+  width: 8px;
+  height: 1px;
+  top: 50%;
+  left: -2px;
+  border-radius: 1px;
+}
+
+.joe-enhanced-select__arrow--open span {
+  transform: rotate(225deg) translate(2px, 2px);
+  transform-origin: center center;
 }
 
 .joe-enhanced-select__menu {

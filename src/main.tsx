@@ -40,6 +40,126 @@ const mockLoadOptions = (query: string) => {
   });
 };
 
+// 模拟同步加载选项（直接返回结果，不使用Promise）
+const syncLoadOptions = (query: string): Option[] => {
+  return largeOptions.filter(option => 
+    option.label.toLowerCase().includes(query.toLowerCase())
+  );
+};
+
+// 使用公开API的真实示例 - 搜索维基百科页面
+const wikipediaApiLoadOptions = async (query: string) => {
+  if (!query.trim()) return [];
+  
+  try {
+    const response = await fetch(
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`
+    );
+    
+    if (response.status === 404) {
+      // 如果精确匹配没找到，尝试搜索API
+      const searchResponse = await fetch(
+        `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*`
+      );
+      const searchData = await searchResponse.json();
+      
+      if (searchData.query && searchData.query.search) {
+        return searchData.query.search.slice(0, 10).map((item: any) => ({
+          value: item.title,
+          label: item.title
+        }));
+      }
+      return [];
+    }
+    
+    const data = await response.json();
+    return [{
+      value: data.title,
+      label: data.title
+    }];
+  } catch (error) {
+    console.error('Wikipedia API调用失败:', error);
+    return [];
+  }
+};
+
+// 使用公开API的真实示例 - 搜索GitHub仓库
+const githubApiLoadOptions = async (query: string) => {
+  if (!query.trim()) return [];
+  
+  try {
+    const response = await fetch(
+      `https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&per_page=10`,
+      {
+        headers: {
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      }
+    );
+    
+    const data = await response.json();
+    
+    if (data.items) {
+      return data.items.map((repo: any) => ({
+        value: repo.full_name,
+        label: `${repo.full_name} (${repo.language || 'N/A'})`
+      }));
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('GitHub API调用失败:', error);
+    return [];
+  }
+};
+
+// 使用公开API的真实示例 - 搜索城市
+const citiesApiLoadOptions = async (query: string) => {
+  if (!query.trim()) return [];
+  
+  try {
+    // 使用免费的地理位置API
+    const response = await fetch(
+      `https://geocode.maps.co/search?q=${encodeURIComponent(query)}`
+    );
+    
+    const data = await response.json();
+    
+    if (Array.isArray(data) && data.length > 0) {
+      return data.slice(0, 10).map((location: any) => ({
+        value: location.display_name,
+        label: location.display_name
+      }));
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('Geocode API调用失败:', error);
+    return [];
+  }
+};
+
+// 为了演示目的，创建一个模拟真实API调用的函数（绕过跨域问题）
+const mockRealApiLoadOptions = async (query: string) => {
+  if (!query.trim()) return [];
+  
+  // 模拟真实API调用的延迟
+  await new Promise(resolve => setTimeout(resolve, 300));
+  
+  // 模拟根据用户输入返回相关结果
+  const mockResults = [
+    { value: `${query}-官方旗舰店`, label: `${query}-官方旗舰店` },
+    { value: `${query}-正品`, label: `${query}-正品` },
+    { value: `${query}-特价`, label: `${query}-特价` },
+    { value: `${query}-热销`, label: `${query}-热销` },
+    { value: `${query}-新品`, label: `${query}-新品` },
+  ];
+  
+  return mockResults;
+};
+
+
+
 // 函数组件测试
 function FunctionComponentTests() {
   const [singleValue, setSingleValue] = React.useState<string | number | (string | number)[] | null>(null);
@@ -96,6 +216,85 @@ function FunctionComponentTests() {
         />
         <p>当前选中值: {Array.isArray(asyncMultipleValue) ? asyncMultipleValue.join(', ') : asyncMultipleValue?.toString()}</p>
       </div>
+
+      <div style={{ marginBottom: '30px' }}>
+        <h2>函数组件异步多选</h2>
+        <JoeEnhancedSelect
+          loadOptions={mockLoadOptions}
+          value={asyncMultipleValue}
+          onChange={setAsyncMultipleValue}
+          placeholder="请选择选项"
+          multiple
+        />
+        <p>当前选中值: {Array.isArray(asyncMultipleValue) ? asyncMultipleValue.join(', ') : asyncMultipleValue?.toString()}</p>
+      </div>
+
+      <div style={{ marginBottom: '30px' }}>
+        <h2>函数组件同步搜索（非异步函数）</h2>
+        <JoeEnhancedSelect
+          loadOptions={syncLoadOptions}
+          value={singleValue}
+          onChange={setSingleValue}
+          placeholder="同步搜索选项（非异步函数）"
+        />
+        <p>当前选中值: {singleValue?.toString()}</p>
+      </div>
+
+      <div style={{ marginBottom: '30px' }}>
+        <h2>函数组件真实API模拟搜索</h2>
+        <JoeEnhancedSelect
+          loadOptions={mockRealApiLoadOptions}
+          value={singleValue}
+          onChange={setSingleValue}
+          placeholder="模拟真实API搜索（如淘宝建议）"
+        />
+        <p>当前选中值: {singleValue?.toString()}</p>
+      </div>
+
+      <div style={{ marginBottom: '30px' }}>
+        <h2>函数组件维基百科搜索</h2>
+        <JoeEnhancedSelect
+          loadOptions={wikipediaApiLoadOptions}
+          value={singleValue}
+          onChange={setSingleValue}
+          placeholder="搜索维基百科页面"
+        />
+        <p>当前选中值: {singleValue?.toString()}</p>
+      </div>
+
+      <div style={{ marginBottom: '30px' }}>
+        <h2>函数组件GitHub仓库搜索</h2>
+        <JoeEnhancedSelect
+          loadOptions={githubApiLoadOptions}
+          value={singleValue}
+          onChange={setSingleValue}
+          placeholder="搜索GitHub仓库"
+        />
+        <p>当前选中值: {singleValue?.toString()}</p>
+      </div>
+
+      <div style={{ marginBottom: '30px' }}>
+        <h2>函数组件城市搜索</h2>
+        <JoeEnhancedSelect
+          loadOptions={citiesApiLoadOptions}
+          value={singleValue}
+          onChange={setSingleValue}
+          placeholder="搜索城市位置"
+        />
+        <p>当前选中值: {singleValue?.toString()}</p>
+      </div>
+
+      {/* 注意：由于跨域限制，淘宝API示例可能无法直接在浏览器中工作 */}
+      {/* <div style={{ marginBottom: '30px' }}>
+        <h2>函数组件真实淘宝API搜索（可能受跨域限制）</h2>
+        <JoeEnhancedSelect
+          loadOptions={taobaoApiLoadOptions}
+          value={singleValue}
+          onChange={setSingleValue}
+          placeholder="真实淘宝搜索建议API（可能无法工作）"
+        />
+        <p>当前选中值: {singleValue?.toString()}</p>
+      </div> */}
 
       <div style={{ marginBottom: '30px' }}>
         <h2>函数组件大量选项测试</h2>

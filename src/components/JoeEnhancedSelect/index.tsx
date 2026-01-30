@@ -493,7 +493,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
           </div>
         )}
         <div className={`${styles['joe-enhanced-select__arrow']} ${isOpen ? styles['joe-enhanced-select__arrow--open'] : ''}`}>
-          ▼
+          <span></span>
         </div>
       </div>
 

@@ -1,7 +1,31 @@
 {
-  "name": "@your-org/joe-enhanced-select",
-  "private": false,
+  "name": "joe-enhanced-select",
   "version": "1.0.0",
+  "description": "一个功能强大、易于使用的增强型选择组件，支持静态选项、异步加载、多选、搜索等功能。",
+  "keywords": [
+    "react",
+    "component",
+    "select",
+    "dropdown",
+    "autocomplete",
+    "search",
+    "multiselect",
+    "ui",
+    "joe-enhanced-select",
+    "enhanced-select",
+    "joeEnhancedSelect",
+    "joeenhancedselect"
+  ],
+  "author": "Joe Wu",
+  "license": "MIT",
+  "homepage": "https://github.com/qiao915/joe-enhanced-select#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiao915/joe-enhanced-select.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qiao915/joe-enhanced-select/issues"
+  },
   "type": "module",
   "main": "./dist/joe-enhanced-select.cjs.js",
   "module": "./dist/joe-enhanced-select.es.js",
@@ -15,7 +39,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build && npm run build:types",
+    "build:types": "tsc -p tsconfig.types.json",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
