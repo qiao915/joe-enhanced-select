@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import type { Option, JoeEnhancedSelectProps } from '../../types';
-import styles from './styles.module.css';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import type { Option, JoeEnhancedSelectProps } from "../../types";
+import "./styles.css"
 
 /**
  * 增强型选择组件
@@ -10,14 +10,14 @@ import styles from './styles.module.css';
  * @param onChange 值变化回调函数
  * @param multiple 是否为多选模式，默认为 false
  * @param disabled 是否禁用，默认为 false
- * @param placeholder 占位文本，默认为 '请选择'
- * @param noResultsText 无结果时的提示文本，默认为 '暂无数据'
- * @param noMatchText 无匹配项时的提示文本，默认为 '无匹配项'
+ * @param placeholder 占位文本，默认为 "请选择"
+ * @param noResultsText 无结果时的提示文本，默认为 "暂无数据"
+ * @param noMatchText 无匹配项时的提示文本，默认为 "无匹配项"
  * @param searchPlaceholder 搜索框占位文本，默认为 placeholder
  * @param loadOptions 异步加载选项的函数，返回 Promise
- * @param loadingText 加载中提示文本，默认为 '加载中...'
- * @param highlightColor 高亮文本颜色，默认为 '#0066cc'
- * @param normalTextColor 普通文本颜色，默认为 '#333333'
+ * @param loadingText 加载中提示文本，默认为 "加载中..."
+ * @param highlightColor 高亮文本颜色，默认为 "#0066cc"
+ * @param normalTextColor 普通文本颜色，默认为 "#333333"
  * @param debounceTimeout 防抖时间，默认为 300ms
  * @param className 自定义类名
  * @param style 自定义样式
@@ -28,20 +28,20 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
   onChange,
   multiple = false,
   disabled = false,
-  placeholder = '请选择',
-  noResultsText = '暂无数据',
-  noMatchText = '无匹配项',
+  placeholder = "请选择",
+  noResultsText = "暂无数据",
+  noMatchText = "无匹配项",
   searchPlaceholder = placeholder,
   loadOptions,
-  loadingText = '加载中...',
-  highlightColor = '#0066cc',
-  normalTextColor = '#333333',
+  loadingText = "加载中...",
+  highlightColor = "#0066cc",
+  normalTextColor = "#333333",
   debounceTimeout = 300, // 防抖时间，默认为 300ms
-  className = '',
+  className = "",
   style = {}
 }) => {
   // 输入框的值
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   // 下拉菜单是否打开
   const [isOpen, setIsOpen] = useState(false);
   // 是否正在加载
@@ -49,9 +49,9 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
   // 过滤后的选项
   const [filteredOptions, setFilteredOptions] = useState<Option[]>(staticOptions);
   // 防抖处理后的输入值
-  const [debouncedInput, setDebouncedInput] = useState('');
+  const [debouncedInput, setDebouncedInput] = useState("");
   // 最后一次搜索的输入值
-  const lastSearchInput = React.useRef('');
+  const lastSearchInput = React.useRef("");
   // 搜索请求ID，用于取消过期的请求
   const searchRequestId = React.useRef(0);
 
@@ -111,7 +111,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
    * @dependency 无 - 函数内部逻辑不依赖外部状态
    */
   const filterAndSortOptions = useCallback((options: Option[], query: string): Option[] => {
-    if (!query || query.trim() === '') return options;
+    if (!query || query.trim() === "") return options;
 
     return options
       .filter(option => option.label.toLowerCase().includes(query.toLowerCase()))
@@ -165,8 +165,8 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
    */// 当打开下拉菜单时，初始化输入值
   useEffect(() => {
     if (isOpen) {
-      setInputValue('');
-      setDebouncedInput(''); // 直接设置debouncedInput为空，避免触发异步搜索
+      setInputValue("");
+      setDebouncedInput(""); // 直接设置debouncedInput为空，避免触发异步搜索
       // 不设置isInitializing，因为我们要在用户实际输入时才开始搜索
     }
   }, [isOpen]);
@@ -184,9 +184,9 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
    */
   useEffect(() => {
     // 在异步模式下，如果输入为空，显示空数组
-    if (debouncedInput.trim() === '' && loadOptions) {
+    if (debouncedInput.trim() === "" && loadOptions) {
       setFilteredOptions([]);
-      lastSearchInput.current = '';
+      lastSearchInput.current = "";
       return;
     }
     
@@ -210,7 +210,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
             setFilteredOptions(results);
           }
         } catch (error) {
-          console.warn('Error loading options:', error);
+          console.warn("Error loading options:", error);
           // 只有当这个请求仍然是最新的请求时，才更新状态
           if (isMountedRef.current && currentRequestId === searchRequestId.current) {
             setFilteredOptions([]);
@@ -249,7 +249,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
   const highlightLabel = useCallback((label: string, query: string) => {
     if (!query) return label;
 
-    const parts = label.split(new RegExp(`(${query})`, 'gi'));
+    const parts = label.split(new RegExp(`(${query})`, "gi"));
     return (
       <>
         {parts.map((part, index) =>
@@ -295,7 +295,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
       }
     } else {
       onChange(option.value);
-      setInputValue('');
+      setInputValue("");
       setIsOpen(false);
     }
   }, [value, onChange, multiple]);
@@ -331,8 +331,8 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
       setIsOpen(!isOpen);
       // 当打开时，重置搜索输入并加载所有选项
       if (!isOpen) {
-        setInputValue('');
-        setDebouncedInput('');
+        setInputValue("");
+        setDebouncedInput("");
         if (!loadOptions) {
           setFilteredOptions(staticOptionsRef.current);
         }
@@ -354,8 +354,8 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   /**
@@ -381,7 +381,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
     
     if (multiple && Array.isArray(value)) {
       value.forEach(val => {
-        const strVal = typeof val === 'string' ? val : String(val);
+        const strVal = typeof val === "string" ? val : String(val);
         // 如果当前值不在标签映射中，尝试查找其标签
         if (!selectedLabelsMap[strVal]) {
           const option = staticOptionsRef.current.find(opt => opt.value === val) || 
@@ -395,7 +395,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
         }
       });
     } else if (!multiple && value !== null) {
-      const strVal = typeof value === 'string' ? value : String(value);
+      const strVal = typeof value === "string" ? value : String(value);
       const strValKey = strVal;
       if (!selectedLabelsMap[strValKey]) {
         const option = staticOptionsRef.current.find(opt => opt.value === value) || 
@@ -422,7 +422,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
       }
       
       // 如果没找到，为了显示目的，使用已知的标签或默认值
-      const strVal = typeof val === 'string' ? val : String(val);
+      const strVal = typeof val === "string" ? val : String(val);
       const savedLabel = selectedLabelsMap[strVal];
       
       return { 
@@ -460,23 +460,23 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
     } else if (!multiple && selectedOptions.length > 0) {
       return selectedOptions[0].label;
     }
-    return '';
+    return "";
   }, [value, multiple, selectedOptions]);
 
   return (
     <div 
       ref={selectRef}
-      className={`${styles['joe-enhanced-select']} ${className} ${disabled ? styles['joe-enhanced-select--disabled'] : ''}`}
+      className={`joe-enhanced-select ${className} ${disabled ? "joe-enhanced-select--disabled" : ""}`}
       style={style}
     >
-      <div className={styles['joe-enhanced-select__input-container']} onClick={handleInputClick}>
+      <div className="joe-enhanced-select__input-container" onClick={handleInputClick}>
         {multiple && Array.isArray(value) && value.length > 0 ? (
-          <div className={styles['joe-enhanced-select__tags']}>
+          <div className="joe-enhanced-select__tags">
             {selectedOptions.map(option => (
-              <div key={option.value} className={styles['joe-enhanced-select__tag']}>
+              <div key={option.value} className="joe-enhanced-select__tag">
                 <span>{option.label}</span>
                 <button 
-                  className={styles['joe-enhanced-select__tag-remove']}
+                  className="joe-enhanced-select__tag-remove"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleTagRemove(option.value);
@@ -488,34 +488,34 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
             ))}
           </div>
         ) : (
-          <div className={styles['joe-enhanced-select__selected-value']}>
+          <div className="joe-enhanced-select__selected-value">
             {selectedLabel || placeholder}
           </div>
         )}
-        <div className={`${styles['joe-enhanced-select__arrow']} ${isOpen ? styles['joe-enhanced-select__arrow--open'] : ''}`}>
-          <span></span>
+        <div className={`joe-enhanced-select__arrow ${isOpen ? "joe-enhanced-select__arrow--open" : ""}`}>
+          <div className="joe-enhanced-select__arrow-icon"></div>
         </div>
       </div>
 
       {isOpen && (
-        <div className={styles['joe-enhanced-select__menu']}>
-          <div className={styles['joe-enhanced-select__search-container']}>
+        <div className="joe-enhanced-select__menu">
+          <div className="joe-enhanced-select__search-container">
             <input
                 type="text"
-                className={styles['joe-enhanced-select__search-input']}
+                className="joe-enhanced-select__search-input"
                 placeholder={searchPlaceholder}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 disabled={disabled}
                 autoFocus
               />
-            <div className={styles['joe-enhanced-select__search-icon']}>
+            <div className="joe-enhanced-select__search-icon">
               🔍
             </div>
           </div>
-          <div className={styles['joe-enhanced-select__menu-content']}>
-            {isLoading || (loadOptions && inputValue.trim() !== '' && lastSearchInput.current !== inputValue) ? (
-            <div className={styles['joe-enhanced-select__loading']}>
+          <div className="joe-enhanced-select__menu-content">
+            {isLoading || (loadOptions && inputValue.trim() !== "" && lastSearchInput.current !== inputValue) ? (
+            <div className="joe-enhanced-select__loading">
               {loadingText}
             </div>
           ) : (
@@ -523,15 +523,15 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
               filteredOptions.map(option => (
                 <div
                   key={option.value}
-                  className={`${styles['joe-enhanced-select__option']} ${(Array.isArray(value) ? value.includes(option.value) : value === option.value) ? styles['joe-enhanced-select__option--selected'] : ''}`}
+                  className={`joe-enhanced-select__option ${(Array.isArray(value) ? value.includes(option.value) : value === option.value) ? "joe-enhanced-select__option--selected" : ""}`}
                   onClick={() => handleOptionClick(option)}
                 >
                   {highlightLabel(option.label, inputValue)}
                 </div>
               ))
             ) : (
-              <div className={styles['joe-enhanced-select__no-results']}>
-                {inputValue.trim() !== '' ? noMatchText : noResultsText}
+              <div className="joe-enhanced-select__no-results">
+                {inputValue.trim() !== "" ? noMatchText : noResultsText}
               </div>
             )
           )}
