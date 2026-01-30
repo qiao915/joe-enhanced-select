@@ -146,6 +146,17 @@
   color: #1890ff;
 }
 
+.joe-enhanced-select__option--disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  background-color: #fafafa !important;
+}
+
+.joe-enhanced-select__option--disabled:hover {
+  background-color: #fafafa !important;
+  cursor: not-allowed;
+}
+
 .joe-enhanced-select__no-results,
 .joe-enhanced-select__loading {
   padding: 12px;

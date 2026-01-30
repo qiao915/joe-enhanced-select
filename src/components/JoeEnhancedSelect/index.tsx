@@ -523,8 +523,8 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
               filteredOptions.map(option => (
                 <div
                   key={option.value}
-                  className={`joe-enhanced-select__option ${(Array.isArray(value) ? value.includes(option.value) : value === option.value) ? "joe-enhanced-select__option--selected" : ""}`}
-                  onClick={() => handleOptionClick(option)}
+                  className={`joe-enhanced-select__option ${option.disabled ? "joe-enhanced-select__option--disabled" : ""} ${(Array.isArray(value) ? value.includes(option.value) : value === option.value) ? "joe-enhanced-select__option--selected" : ""}`}
+                  onClick={() => !option.disabled && handleOptionClick(option)}
                 >
                   {highlightLabel(option.label, inputValue)}
                 </div>
