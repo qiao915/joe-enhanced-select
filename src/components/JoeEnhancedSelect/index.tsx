@@ -501,13 +501,14 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
         <div className={styles['joe-enhanced-select__menu']}>
           <div className={styles['joe-enhanced-select__search-container']}>
             <input
-              type="text"
-              className={styles['joe-enhanced-select__search-input']}
-              placeholder={searchPlaceholder}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              disabled={disabled}
-            />
+                type="text"
+                className={styles['joe-enhanced-select__search-input']}
+                placeholder={searchPlaceholder}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                disabled={disabled}
+                autoFocus
+              />
             <div className={styles['joe-enhanced-select__search-icon']}>
               🔍
             </div>
