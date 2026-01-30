@@ -1,0 +1,46 @@
+# 源码文件
+src/
+*.tsx
+*.ts
+*.jsx
+*.js
+
+# 开发配置文件
+*.config.*
+*.json
+!package.json
+!README.md
+!LICENSE
+
+# 测试文件
+test/
+tests/
+*.test.*
+*.spec.*
+
+# Storybook 相关
+.storybook/
+*.stories.*
+
+# Git 相关
+.git/
+.gitignore
+
+# IDE 相关
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 构建相关
+node_modules/
+
+# 日志文件
+*.log
+
+# 环境文件
+.env*
+
+
+COMPATIBILITY.md
+PUBLISH_CHECKLIST.md

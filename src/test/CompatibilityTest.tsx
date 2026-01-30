@@ -1,183 +1,201 @@
-// 测试组件在不同环境中的兼容性
-// 这个文件用于验证JoeEnhancedSelect组件在函数组件和类组件中都能正常使用
+// JoeEnhancedSelect 组件兼容性测试
+// 测试组件在类组件、函数组件、TSX组件、JSX组件中的使用
 
 import React from 'react';
 import JoeEnhancedSelect from '../components/JoeEnhancedSelect';
 import type { Option } from '../types';
-
-// 定义类组件接口
-interface ClassTestProps {}
 
 // 测试选项
 const testOptions: Option[] = [
   { value: 'option1', label: '选项 1' },
   { value: 'option2', label: '选项 2' },
   { value: 'option3', label: '选项 3' },
+  { value: 'react', label: 'React' },
+  { value: 'vue', label: 'Vue' },
+  { value: 'angular', label: 'Angular' },
 ];
 
-// 模拟异步加载选项
-const mockLoadOptions = (query: string) => {
-  return new Promise<Option[]>((resolve) => {
-    setTimeout(() => {
-      const filteredOptions = testOptions.filter(option =>
-        option.label.toLowerCase().includes(query.toLowerCase())
-      );
-      resolve(filteredOptions);
-    }, 300);
-  });
-};
-
-// 1. 函数组件测试 - 静态选项
-const FunctionalStaticTest: React.FC = () => {
+// 1. 函数组件测试 (TSX)
+const FunctionComponentTest: React.FC = () => {
   const [value, setValue] = React.useState<string | number | (string | number)[] | null>(null);
+  const [multiValue, setMultiValue] = React.useState<(string | number)[]>([]);
 
   return (
-    <div>
-      <h3>函数组件 - 静态选项</h3>
-      <JoeEnhancedSelect
-        options={testOptions}
-        value={value}
-        onChange={setValue}
-        placeholder="请选择"
-      />
-      <p>当前值: {value?.toString() || '无'}</p>
+    <div style={{ padding: '20px', border: '1px solid #ccc', margin: '10px', borderRadius: '4px' }}>
+      <h3>函数组件测试 (TSX)</h3>
+      
+      <div style={{ marginBottom: '15px' }}>
+        <h4>单选模式</h4>
+        <JoeEnhancedSelect
+          options={testOptions}
+          value={value}
+          onChange={setValue}
+          placeholder="请选择一个选项"
+        />
+        <p>当前值: {value?.toString() || '无'}</p>
+      </div>
+      
+      <div style={{ marginBottom: '15px' }}>
+        <h4>多选模式</h4>
+        <JoeEnhancedSelect
+          options={testOptions}
+          value={multiValue}
+          onChange={setMultiValue}
+          multiple
+          placeholder="请选择多个选项"
+        />
+        <p>当前值: {multiValue.join(', ') || '无'}</p>
+      </div>
     </div>
   );
 };
 
-// 2. 函数组件测试 - 多选
-const FunctionalMultiTest: React.FC = () => {
-  const [value, setValue] = React.useState<string | number | (string | number)[] | null>([]);
+// 2. 类组件测试 (TSX)
+interface ClassComponentTestProps {}
 
-  return (
-    <div>
-      <h3>函数组件 - 多选</h3>
-      <JoeEnhancedSelect
-        options={testOptions}
-        value={value}
-        onChange={setValue}
-        multiple
-        placeholder="请选择多个"
-      />
-      <p>当前值: {Array.isArray(value) ? (value as (string | number)[]).join(', ') : value?.toString() || '无'}</p>
-    </div>
-  );
-};
-
-// 3. 函数组件测试 - 异步加载
-const FunctionalAsyncTest: React.FC = () => {
-  const [value, setValue] = React.useState<string | number | (string | number)[] | null>(null);
-
-  return (
-    <div>
-      <h3>函数组件 - 异步加载</h3>
-      <JoeEnhancedSelect
-        loadOptions={mockLoadOptions}
-        value={value}
-        onChange={setValue}
-        placeholder="搜索选项"
-      />
-      <p>当前值: {value?.toString() || '无'}</p>
-    </div>
-  );
-};
-
-// 4. 函数组件测试 - 同步函数
-const FunctionalSyncTest: React.FC = () => {
-  const [value, setValue] = React.useState<string | number | (string | number)[] | null>(null);
-
-  return (
-    <div>
-      <h3>函数组件 - 同步函数</h3>
-      <JoeEnhancedSelect
-        loadOptions={(query: string) => {
-          return testOptions.filter(option =>
-            option.label.toLowerCase().includes(query.toLowerCase())
-          );
-        }}
-        value={value}
-        onChange={setValue}
-        placeholder="同步搜索"
-      />
-      <p>当前值: {value?.toString() || '无'}</p>
-    </div>
-  );
-};
-
-// 5. 类组件状态接口
-interface ClassTestState {
-  singleValue: string | number | (string | number)[] | null;
+interface ClassComponentTestState {
+  value: string | number | (string | number)[] | null;
   multiValue: (string | number)[];
 }
 
-// 6. 类组件测试
-class ClassComponentTest extends React.Component<ClassTestProps, ClassTestState> {
-  constructor(props: ClassTestProps) {
+class ClassComponentTest extends React.Component<ClassComponentTestProps, ClassComponentTestState> {
+  constructor(props: ClassComponentTestProps) {
     super(props);
     this.state = {
-      singleValue: null,
-      multiValue: [],
+      value: null,
+      multiValue: []
     };
   }
 
-  handleSingleChange = (value: string | number | (string | number)[] | null) => {
-    this.setState({ singleValue: value });
+  handleValueChange = (value: string | number | (string | number)[] | null) => {
+    this.setState({ value });
   };
 
-  handleMultiChange = (value: string | number | (string | number)[] | null) => {
-    this.setState({ multiValue: Array.isArray(value) ? value : [] });
+  handleMultiValueChange = (multiValue: string | number | (string | number)[] | null) => {
+    this.setState({ 
+      multiValue: Array.isArray(multiValue) ? multiValue : [] 
+    });
   };
 
   render() {
     return (
-      <div>
-        <h3>类组件 - 单选</h3>
-        <JoeEnhancedSelect
-          options={testOptions}
-          value={this.state.singleValue}
-          onChange={this.handleSingleChange}
-          placeholder="类组件单选"
-        />
-        <p>当前值: {this.state.singleValue?.toString() || '无'}</p>
+      <div style={{ padding: '20px', border: '1px solid #ccc', margin: '10px', borderRadius: '4px' }}>
+        <h3>类组件测试 (TSX)</h3>
         
-        <h3>类组件 - 多选</h3>
-        <JoeEnhancedSelect
-          options={testOptions}
-          value={this.state.multiValue}
-          onChange={this.handleMultiChange}
-          multiple
-          placeholder="类组件多选"
-        />
-        <p>当前值: {this.state.multiValue.join(', ') || '无'}</p>
+        <div style={{ marginBottom: '15px' }}>
+          <h4>单选模式</h4>
+          <JoeEnhancedSelect
+            options={testOptions}
+            value={this.state.value}
+            onChange={this.handleValueChange}
+            placeholder="请选择一个选项"
+          />
+          <p>当前值: {this.state.value?.toString() || '无'}</p>
+        </div>
+        
+        <div style={{ marginBottom: '15px' }}>
+          <h4>多选模式</h4>
+          <JoeEnhancedSelect
+            options={testOptions}
+            value={this.state.multiValue}
+            onChange={this.handleMultiValueChange}
+            multiple
+            placeholder="请选择多个选项"
+          />
+          <p>当前值: {this.state.multiValue.join(', ') || '无'}</p>
+        </div>
       </div>
     );
   }
 }
 
+// 3. 异步加载测试
+const AsyncFunctionComponent: React.FC = () => {
+  const [value, setValue] = React.useState<string | number | (string | number)[] | null>(null);
+
+  const asyncLoadOptions = (query: string) => {
+    return new Promise<Option[]>((resolve) => {
+      setTimeout(() => {
+        const filtered = testOptions.filter(option =>
+          option.label.toLowerCase().includes(query.toLowerCase()) ||
+          option.value.toString().toLowerCase().includes(query.toLowerCase())
+        );
+        resolve(filtered);
+      }, 300);
+    });
+  };
+
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc', margin: '10px', borderRadius: '4px' }}>
+      <h3>异步加载测试 (TSX)</h3>
+      <JoeEnhancedSelect
+        loadOptions={asyncLoadOptions}
+        value={value}
+        onChange={setValue}
+        placeholder="搜索选项 (异步)"
+      />
+      <p>当前值: {value?.toString() || '无'}</p>
+    </div>
+  );
+};
+
+// 4. JSX 兼容性测试（使用JavaScript语法）
+const JSXCompatibilityTest: React.FC = () => {
+  const [value, setValue] = React.useState<string | number | (string | number)[] | null>(null);
+
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc', margin: '10px', borderRadius: '4px' }}>
+      <h3>JSX 兼容性测试</h3>
+      <JoeEnhancedSelect
+        options={testOptions}
+        value={value}
+        onChange={setValue}
+        placeholder="JSX 兼容性测试"
+      />
+      <p>当前值: {value?.toString() || '无'}</p>
+    </div>
+  );
+};
+
+// 5. 同步函数加载测试
+const SyncFunctionComponent: React.FC = () => {
+  const [value, setValue] = React.useState<string | number | (string | number)[] | null>(null);
+
+  const syncLoadOptions = (query: string): Option[] => {
+    return testOptions.filter(option =>
+      option.label.toLowerCase().includes(query.toLowerCase()) ||
+      option.value.toString().toLowerCase().includes(query.toLowerCase())
+    );
+  };
+
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc', margin: '10px', borderRadius: '4px' }}>
+      <h3>同步函数加载测试</h3>
+      <JoeEnhancedSelect
+        loadOptions={syncLoadOptions}
+        value={value}
+        onChange={setValue}
+        placeholder="同步搜索选项"
+      />
+      <p>当前值: {value?.toString() || '无'}</p>
+    </div>
+  );
+};
+
 // 主测试组件
 const CompatibilityTest: React.FC = () => {
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>JoeEnhancedSelect 兼容性测试</h1>
+    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '0 auto' }}>
+      <h1>JoeEnhancedSelect 组件兼容性测试</h1>
+      <p>此页面测试组件在各种React环境中的兼容性</p>
       
-      <FunctionalStaticTest />
-      <hr />
-      
-      <FunctionalMultiTest />
-      <hr />
-      
-      <FunctionalAsyncTest />
-      <hr />
-      
-      <FunctionalSyncTest />
-      <hr />
-      
+      <FunctionComponentTest />
       <ClassComponentTest />
+      <AsyncFunctionComponent />
+      <SyncFunctionComponent />
+      <JSXCompatibilityTest />
     </div>
   );
 };
 
 export default CompatibilityTest;
-
-// 导出类型供外部使用
-export type { Option };

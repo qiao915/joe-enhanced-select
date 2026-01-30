@@ -21,7 +21,7 @@ const mockOptions = [
   { value: 'mx', label: '名校堂' },
   { value: 'ms', label: '名彩' },
   { value: 'md', label: '名寇' },
-  { value: 'mt', label: '名堂' },
+  { value: 'mt', label: '名堂', disabled: true },
   { value: 'zhs', label: '芝华士' },
   { value: 'lc', label: '兰蔻' },
 ];
