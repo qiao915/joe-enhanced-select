@@ -1,6 +1,6 @@
 {
   "name": "joe-enhanced-select",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "一个功能强大、易于使用的增强型选择组件，支持静态选项、异步加载、多选、搜索等功能。",
   "keywords": [
     "react",
@@ -27,13 +27,13 @@
     "url": "https://github.com/qiao915/joe-enhanced-select/issues"
   },
   "type": "module",
-  "main": "./dist/joe-enhanced-select.cjs.js",
-  "module": "./dist/joe-enhanced-select.es.js",
+  "main": "./dist/jes.cjs.js",
+  "module": "./dist/jes.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/joe-enhanced-select.es.js",
-      "require": "./dist/joe-enhanced-select.cjs.js",
+      "import": "./dist/jes.es.js",
+      "require": "./dist/jes.cjs.js",
       "types": "./dist/index.d.ts"
     }
   },

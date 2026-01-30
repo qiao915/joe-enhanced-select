@@ -9,11 +9,17 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/components/JoeEnhancedSelect/index.ts'),
       name: 'JoeEnhancedSelect',
-      fileName: (format) => `joe-enhanced-select.${format}.js`,
+      fileName: (format) => `jes.${format}.js`,
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
       output: {
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return 'jes.css';
+          }
+          return assetInfo.name || '[name].[hash][extname]';
+        },
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
