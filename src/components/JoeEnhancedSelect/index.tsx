@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import type { Option, JoeEnhancedSelectProps } from "../../types";
-import "./styles.css"
 
 /**
  * 增强型选择组件
@@ -65,6 +64,271 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
   const selectedLabelsMapRef = React.useRef<Record<string | number, string>>({});
   // 组件是否已挂载的引用，用于在异步操作后检查组件是否仍在挂载
   const isMountedRef = React.useRef(true);
+
+  // 嵌入样式
+  useEffect(() => {
+    const styleId = 'joe-enhanced-select-styles';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        .joe-enhanced-select {
+          position: relative;
+          width: 100%;
+          max-width: 300px;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .joe-enhanced-select__input-container {
+          border: 1px solid #d9d9d9;
+          border-radius: 4px;
+          padding: 4px 8px;
+          min-height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          background-color: #fff;
+        }
+
+        .joe-enhanced-select__input-container:hover {
+          border-color: #1890ff;
+        }
+
+        .joe-enhanced-select--disabled .joe-enhanced-select__input-container {
+          background-color: #f5f5f5;
+          cursor: not-allowed;
+          border-color: #d9d9d9;
+        }
+
+        .joe-enhanced-select__selected-value {
+          flex: 1;
+          padding: 4px 0;
+          font-size: 14px;
+          color: #333;
+        }
+
+        .joe-enhanced-select__arrow {
+          margin-left: 8px;
+        }
+        .joe-enhanced-select__arrow .joe-enhanced-select__arrow-icon {
+          width: 10px;
+          height: 10px;
+          position: relative;
+          transition: transform 0.3s ease;
+          transform: rotate(45deg) translate(2px, 2px);
+        }
+
+        .joe-enhanced-select__arrow .joe-enhanced-select__arrow-icon::before,
+        .joe-enhanced-select__arrow .joe-enhanced-select__arrow-icon::after {
+          content: '';
+          position: absolute;
+          background-color: #999;
+          transition: all 0.3s ease;
+        }
+
+        .joe-enhanced-select__arrow .joe-enhanced-select__arrow-icon::before {
+          width: 1px;
+          height: 8px;
+          top: -2px;
+          left: 50%;
+          border-radius: 1px;
+        }
+
+        .joe-enhanced-select__arrow .joe-enhanced-select__arrow-icon::after {
+          width: 8px;
+          height: 1px;
+          top: 50%;
+          left: -2px;
+          border-radius: 1px;
+        }
+
+        .joe-enhanced-select__arrow--open .joe-enhanced-select__arrow-icon {
+          transform: rotate(225deg) translate(2px, 2px);
+          transform-origin: center center;
+        }
+
+        .joe-enhanced-select__menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          border: 1px solid #d9d9d9;
+          border-radius: 4px;
+          background-color: #fff;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          overflow: hidden;
+          z-index: 10;
+          margin-top: 2px;
+        }
+
+        .joe-enhanced-select__menu-content {
+          max-height: 150px;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+
+        .joe-enhanced-select__search-container {
+          position: relative;
+          padding: 8px;
+          border-bottom: 1px solid #f0f0f0;
+          box-sizing: border-box;
+        }
+
+        .joe-enhanced-select__search-input {
+          width: 100%;
+          border: 1px solid #d9d9d9;
+          border-radius: 4px;
+          padding: 6px 12px;
+          padding-right: 32px;
+          font-size: 14px;
+          outline: none;
+          box-sizing: border-box;
+        }
+
+        .joe-enhanced-select__search-input:focus {
+          border-color: #1890ff;
+          box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+
+        .joe-enhanced-select__search-icon {
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 14px;
+          color: #999;
+          pointer-events: none;
+        }
+
+        .joe-enhanced-select__option {
+          padding: 8px 12px;
+          cursor: pointer;
+          font-size: 14px;
+          color: #333;
+        }
+
+        .joe-enhanced-select__option:hover {
+          background-color: #f5f5f5;
+        }
+
+        .joe-enhanced-select__option--selected {
+          background-color: #e6f7ff;
+          color: #1890ff;
+        }
+
+        .joe-enhanced-select__option--disabled {
+          color: #ccc;
+          cursor: not-allowed;
+          background-color: #fafafa !important;
+        }
+
+        .joe-enhanced-select__option--disabled:hover {
+          background-color: #fafafa !important;
+          cursor: not-allowed;
+        }
+
+        .joe-enhanced-select__no-results,
+        .joe-enhanced-select__loading {
+          padding: 12px;
+          text-align: center;
+          color: #999;
+          font-size: 14px;
+        }
+
+        .joe-enhanced-select__tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+          align-items: center;
+          flex: 1;
+        }
+
+        .joe-enhanced-select__tag {
+          display: inline-flex;
+          align-items: center;
+          background-color: #f0f0f0;
+          border-radius: 12px;
+          padding: 2px 8px;
+          font-size: 12px;
+          color: #333;
+        }
+
+        .joe-enhanced-select__tag-remove {
+          background: none;
+          border: none;
+          font-size: 14px;
+          cursor: pointer;
+          margin-left: 4px;
+          color: #999;
+          padding: 0;
+          width: 16px;
+          height: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .joe-enhanced-select__tag-remove:hover {
+          color: #333;
+        }
+
+        .joe-enhanced-select__highlight {
+          color: #0066cc;
+        }
+
+        /* 滚动条样式 */
+        .joe-enhanced-select__menu::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .joe-enhanced-select__menu::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 3px;
+        }
+
+        .joe-enhanced-select__menu::-webkit-scrollbar-thumb {
+          background: #c1c1c1;
+          border-radius: 3px;
+        }
+
+        .joe-enhanced-select__menu::-webkit-scrollbar-thumb:hover {
+          background: #a8a8a8;
+        }
+
+        /* 适配图片中的样式 */
+        .joe-enhanced-select__menu {
+          border: 1px solid #d9d9d9;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .joe-enhanced-select__option {
+          padding: 5px 12px;
+          line-height: 18px;
+        }
+
+        .joe-enhanced-select__option:hover {
+          background-color: #f0f8ff;
+        }
+
+        .joe-enhanced-select__option--selected {
+          background-color: #e6f7ff;
+        }
+
+        .joe-enhanced-select__search-input {
+          border: 1px solid #d9d9d9;
+          border-radius: 4px;
+          font-size: 14px;
+        }
+
+        .joe-enhanced-select__search-input:focus {
+          border-color: #1890ff;
+          outline: none;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }, []);
 
   /**
    * 更新 loadOptionsRef 和 staticOptionsRef 当它们变化时

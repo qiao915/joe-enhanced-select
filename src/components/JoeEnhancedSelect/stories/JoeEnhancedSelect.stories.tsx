@@ -12,11 +12,11 @@ export default meta;
 type Story = StoryObj<typeof JoeEnhancedSelect>;
 
 const staticOptions: Option[] = [
-  { value: 'mc', label: '名创优品' },
-  { value: 'ml', label: '名龙堂' },
-  { value: 'mx', label: '名校堂' },
-  { value: 'ms', label: '名彩' },
-  { value: 'md', label: '名寇' },
+  { value: '1', label: '测试1' },
+  { value: '2', label: '测试2' },
+  { value: '3', label: '测试3' },
+  { value: '4', label: '测试4' },
+  { value: '5', label: '测试5' },
 ];
 
 async function loadOptions(query: string): Promise<Option[]> {

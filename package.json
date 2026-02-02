@@ -1,6 +1,6 @@
 {
   "name": "joe-enhanced-select",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "一个功能强大、易于使用的增强型选择组件，支持静态选项、异步加载、多选、搜索等功能。",
   "keywords": [
     "react",
@@ -32,9 +32,9 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/jes.es.js",
-      "require": "./dist/jes.cjs.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/jes.cjs.js"
     }
   },
   "files": [
