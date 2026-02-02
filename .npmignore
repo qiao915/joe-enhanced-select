@@ -45,3 +45,5 @@ node_modules/
 COMPATIBILITY.md
 PUBLISH_CHECKLIST.md
 package-lock.json
+
+**-break.*

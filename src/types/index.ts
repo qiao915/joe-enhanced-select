@@ -28,7 +28,6 @@ export interface JoeEnhancedSelectProps {
 
   // 高亮颜色自定义
   highlightColor?: string;                // 匹配文字高亮颜色，默认 "#0066cc"
-  normalTextColor?: string;               // 正常文本颜色，默认 "#333333"
 
   // 扩展
   className?: string;                     // 外部根容器类名

@@ -16,9 +16,9 @@ const generateOptions = (count: number) => {
 };
 
 const mockOptions = [
-  { value: 'mc', label: '名创优品' },
+  { value: 'mc', label: '名创优品名创优品名创优品名创优品名创优品名创优品名创优品名创优品' },
   { value: 'ml', label: '名龙堂' },
-  { value: 'mx', label: '名校堂' },
+  { value: 'mx', label: '名校堂名校堂名校堂名校堂名校堂名校堂名校堂名校堂名校堂名校堂名校堂' },
   { value: 'ms', label: '名彩' },
   { value: 'md', label: '名寇' },
   { value: 'mt', label: '名堂', disabled: true },

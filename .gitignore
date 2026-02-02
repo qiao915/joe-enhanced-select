@@ -27,3 +27,4 @@ dist-ssr
 COMPATIBILITY.md
 PUBLISH_CHECKLIST.md
 package-lock.json
+**-break.*

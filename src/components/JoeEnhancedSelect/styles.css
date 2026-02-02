@@ -7,18 +7,19 @@
 
 .joe-enhanced-select__input-container {
   border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  padding: 4px 8px;
+  border-radius: 6px;
+  padding: 2px 8px;
   min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   background-color: #fff;
+  box-sizing: border-box;
 }
 
 .joe-enhanced-select__input-container:hover {
-  border-color: #1890ff;
+  border-color: rgb(64, 150, 255)
 }
 
 .joe-enhanced-select--disabled .joe-enhanced-select__input-container {
@@ -123,7 +124,7 @@
 .joe-enhanced-select__search-icon {
   position: absolute;
   right: 16px;
-  top: 50%;
+  top: 52%;
   transform: translateY(-50%);
   font-size: 14px;
   color: #999;
@@ -139,11 +140,6 @@
 
 .joe-enhanced-select__option:hover {
   background-color: #f5f5f5;
-}
-
-.joe-enhanced-select__option--selected {
-  background-color: #e6f7ff;
-  color: #1890ff;
 }
 
 .joe-enhanced-select__option--disabled {
@@ -178,24 +174,24 @@
   align-items: center;
   background-color: #f0f0f0;
   border-radius: 12px;
-  padding: 2px 8px;
+  padding: 2px 2px 2px 6px;
   font-size: 12px;
   color: #333;
 }
 
 .joe-enhanced-select__tag-remove {
-  background: none;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  margin-left: 4px;
-  color: #999;
-  padding: 0;
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: none;
+    border: none;
+    transform: scale(0.8);
+    cursor: pointer;
+    margin-left: 2px;
+    color: #999;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .joe-enhanced-select__tag-remove:hover {
@@ -208,7 +204,7 @@
 
 /* 滚动条样式 */
 .joe-enhanced-select__menu::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 .joe-enhanced-select__menu::-webkit-scrollbar-track {
@@ -232,16 +228,33 @@
 }
 
 .joe-enhanced-select__option {
-  padding: 5px 12px;
-  line-height: 18px;
+  padding: 6px 12px;
+  line-height:20px;
+  /* 超出部分省略号 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .joe-enhanced-select__option:hover {
-  background-color: #f0f8ff;
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 .joe-enhanced-select__option--selected {
-  background-color: #e6f7ff;
+  background-color: rgb(230, 244, 255);
+  color: #1890ff;
+  position: relative;
+  z-index: 1;
+}
+
+.joe-enhanced-select__option-selected-icon{
+  position: absolute;
+  right: 8px;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 2;
 }
 
 .joe-enhanced-select__search-input {
