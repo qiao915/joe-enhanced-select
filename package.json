@@ -1,6 +1,6 @@
 {
   "name": "joe-enhanced-select",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "一个功能强大、易于使用的增强型选择组件，支持静态选项、异步加载、多选、搜索等功能（高亮匹配）。",
   "keywords": [
     "react",
@@ -16,7 +16,7 @@
     "joeEnhancedSelect",
     "joeenhancedselect"
   ],
-  "author": "Joe Wu",
+  "author": "qiao_915@yean.net",
   "license": "MIT",
   "homepage": "https://github.com/qiao915/joe-enhanced-select#readme",
   "repository": {
@@ -52,13 +52,11 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "dependencies": {
-    "react": ">= 16.8",
-    "react-dom": ">= 16.8"
-  },
+
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@jest/types": "^29.6.3",
+    "@rollup/plugin-replace": "^6.0.3",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",

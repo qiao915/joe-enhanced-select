@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import JoeEnhancedSelect from '../components/JoeEnhancedSelect/index.tsx';
+import { JoeEnhancedSelect } from '../components/JoeEnhancedSelect/index.tsx';
 
 const mockOptions = [
   { value: 'mc', label: '名创优品' },

@@ -1,18 +1,19 @@
 # JoeEnhancedSelect
+
+![JoeEnhancedSelect](https://img.shields.io/badge/JoeEnhancedSelect-1.0.5-brightgreen.svg)  
+![React16.8+](https://img.shields.io/badge/react-16.8%2B-blue.svg)
+
   
-一个功能强大、高度可定制的React选择组件，支持单选、多选、异步加载选项、搜索等功能。
+一个功能强大、高度可定制的React选择组件，支持单选、多选、异步加载选项、搜索等功能(高亮匹配关键词)。
 
 ## 特性
 
 - 🎯 **智能搜索** - 支持实时搜索和高亮匹配文本
-- 📱 **响应式设计** - 自适应不同屏幕尺寸
 - ⚡ **高性能** - 使用防抖技术优化搜索性能
 - 🎨 **可定制样式** - 支持自定义高亮颜色和其他样式
 - 🔧 **多种模式** - 支持单选、多选、静态选项、异步加载
 - ♿ **无障碍支持** - 符合无障碍访问标准
 - 💻 **TypeScript支持** - 完整的类型定义
-- 🔘 **自动聚焦** - 打开下拉菜单时搜索框自动获得焦点
-- 🔄 **优雅箭头** - 使用CSS伪元素创建的可旋转箭头
 - ❌ **禁用选项** - 支持禁用特定选项
 
 ## 安装
@@ -61,7 +62,7 @@ export default App;
 
 ```tsx
 import React, { useState } from 'react';
-import JoeEnhancedSelect from 'joe-enhanced-select';
+import { JoeEnhancedSelect } from 'joe-enhanced-select';
 import type { Option } from 'joe-enhanced-select';
 
 const App = () => {

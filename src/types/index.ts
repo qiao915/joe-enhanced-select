@@ -1,3 +1,5 @@
+import type { CSSProperties, FC } from 'react';
+
 export interface Option {
   value: string | number;
   label: string;
@@ -31,5 +33,10 @@ export interface JoeEnhancedSelectProps {
 
   // 扩展
   className?: string;                     // 外部根容器类名
-  style?: React.CSSProperties;            // 外部样式
+  style?: CSSProperties;                  // 外部样式
 }
+
+// 声明组件的默认导出
+declare const JoeEnhancedSelect: FC<JoeEnhancedSelectProps>;
+
+export { JoeEnhancedSelect };

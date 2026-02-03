@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo} from "react";
+import type { FC } from "react";
 import type { Option, JoeEnhancedSelectProps } from "../../types";
 
 /**
@@ -19,7 +20,7 @@ import type { Option, JoeEnhancedSelectProps } from "../../types";
  * @param className 自定义类名
  * @param style 自定义样式
  */
-const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
+const JoeEnhancedSelect: FC<JoeEnhancedSelectProps> = ({
   options: staticOptions = [],
   value,
   onChange,
@@ -41,13 +42,13 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState<Option[]>(staticOptions);
   const [debouncedInput, setDebouncedInput] = useState("");
-  const lastSearchInput = React.useRef("");
-  const searchRequestId = React.useRef(0);
-  const selectRef = React.useRef<HTMLDivElement>(null);
-  const loadOptionsRef = React.useRef(loadOptions);
-  const staticOptionsRef = React.useRef(staticOptions);
-  const selectedLabelsMapRef = React.useRef<Record<string | number, string>>({});
-  const isMountedRef = React.useRef(true);
+  const lastSearchInput = useRef("");
+  const searchRequestId = useRef(0);
+  const selectRef = useRef<HTMLDivElement>(null);
+  const loadOptionsRef = useRef(loadOptions);
+  const staticOptionsRef = useRef(staticOptions);
+  const selectedLabelsMapRef = useRef<Record<string | number, string>>({});
+  const isMountedRef = useRef(true);
   useEffect(() => {
     const styleId = 'joe-enhanced-select-styles';
     if (!document.getElementById(styleId)) {
@@ -222,6 +223,7 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
           display: flex;
           align-items: center;
           justify-content: center;
+          font-size: 12px;
         }
         .joe-enhanced-select__tag-remove:hover {
           color: #333;
@@ -587,4 +589,4 @@ const JoeEnhancedSelect: React.FC<JoeEnhancedSelectProps> = ({
   );
 };
 
-export default JoeEnhancedSelect;
+export { JoeEnhancedSelect };
