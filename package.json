@@ -1,7 +1,7 @@
 {
   "name": "joe-enhanced-select",
   "version": "1.0.5",
-  "description": "一个功能强大、易于使用的增强型选择组件，支持静态选项、异步加载、多选、搜索等功能（高亮匹配）。",
+  "description": "一个功能强大、基于React16.8+，易于使用的增强型选择组件，支持静态选项、异步加载、多选、搜索等功能（高亮匹配）。",
   "keywords": [
     "react",
     "component",
